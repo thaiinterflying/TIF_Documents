@@ -29,6 +29,7 @@ import { ApprovalSection } from '../components/form/ApprovalSection';
 // UI
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
+import { ImportClickUpCard } from '../components/clickup/ImportClickUpCard';
 import {
   Send,
   User,
@@ -46,6 +47,7 @@ import {
   AlertTriangle,
   Save,
   Check,
+  Layers,
 } from 'lucide-react';
 
 interface OrderFormProps {
@@ -151,6 +153,12 @@ export const OrderForm: React.FC<OrderFormProps> = ({
     triggerAutoSaveToast();
   };
 
+  const handleImportSuccess = (importedData: CustomerTrainingForm) => {
+    reset(importedData as any);
+    saveCurrentForm(importedData);
+    triggerAutoSaveToast();
+  };
+
   const triggerAutoSaveToast = () => {
     setSavedToastVisible(true);
     setTimeout(() => setSavedToastVisible(false), 2000);
@@ -247,6 +255,24 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             type="button"
             variant="outline"
             size="sm"
+            onClick={() => {
+              const el = document.getElementById('clickup-task-id-input');
+              if (el) {
+                el.focus();
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }}
+            icon={<Layers className="w-3.5 h-3.5 text-blue-600" />}
+            title="Import data from ClickUp"
+            className="border-blue-200 text-blue-900 hover:bg-blue-50 font-semibold"
+          >
+            Import ClickUp
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
             onClick={handleFillDemoData}
             icon={<Sparkles className="w-3.5 h-3.5 text-amber-500" />}
             title="Auto-fill sample cadet data"
@@ -290,6 +316,12 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           </div>
         </div>
       )}
+
+      {/* IMPORT FROM CLICKUP (Requirement 2 & 12) */}
+      <ImportClickUpCard
+        currentFormData={formValues as CustomerTrainingForm}
+        onImportSuccess={handleImportSuccess}
+      />
 
       {/* MAIN CONTAINER: SIDEBAR + FORM BODY */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

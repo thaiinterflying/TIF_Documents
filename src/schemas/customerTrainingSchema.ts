@@ -90,6 +90,13 @@ export const customerTrainingSchema = z.object({
     salesOfficerDate: z.string().optional(),
     signature: z.string().optional(),
   }),
+
+  // ClickUp Metadata
+  source: z.enum(['manual', 'clickup']).optional(),
+  clickupTaskId: z.string().optional(),
+  clickupTaskUrl: z.string().optional(),
+  lastImportedAt: z.string().optional(),
 });
+
 
 export type CustomerTrainingFormData = z.infer<typeof customerTrainingSchema>;

@@ -99,7 +99,13 @@ export interface CustomerTrainingForm {
   otherServices: OtherServicesInfo;
   finance: FinanceInfo;
   approval: ApprovalInfo;
+  // ClickUp Metadata
+  source?: 'manual' | 'clickup';
+  clickupTaskId?: string;
+  clickupTaskUrl?: string;
+  lastImportedAt?: string;
 }
+
 
 export interface FormDraftSummary {
   id: string;

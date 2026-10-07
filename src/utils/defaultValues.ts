@@ -89,6 +89,10 @@ export const initialFormValues: CustomerTrainingForm = {
     salesOfficerDate: new Date().toISOString().slice(0, 10),
     signature: '',
   },
+  source: 'manual',
+  clickupTaskId: '',
+  clickupTaskUrl: '',
+  lastImportedAt: '',
 };
 
 export const sampleCompletedFormValues: CustomerTrainingForm = {
@@ -174,4 +178,8 @@ export const sampleCompletedFormValues: CustomerTrainingForm = {
     salesOfficerDate: '2026-10-10',
     signature: '',
   },
+  source: 'manual',
+  clickupTaskId: '',
+  clickupTaskUrl: '',
+  lastImportedAt: '',
 };
