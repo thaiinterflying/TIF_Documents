@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  @page {
+    size: letter portrait;
+    margin: 8mm 10mm;
+  }
+
+  /* Force page breaks between Page 1 and Page 2 in print mode */
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+}
