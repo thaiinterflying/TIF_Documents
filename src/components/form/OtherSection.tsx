@@ -2,7 +2,7 @@ import React from 'react';
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import { CustomerTrainingFormData } from '../../schemas/customerTrainingSchema';
 import { Textarea } from '../ui/Textarea';
-import { Sparkles, Home, Utensils, Car, FileBadge, CheckCircle } from 'lucide-react';
+import { Briefcase, Home, Utensils, Car, FileBadge, CheckCircle } from 'lucide-react';
 
 interface OtherSectionProps {
   register: UseFormRegister<CustomerTrainingFormData>;
@@ -35,7 +35,7 @@ export const OtherSection: React.FC<OtherSectionProps> = ({
     <div className="space-y-6">
       <div className="border-b border-slate-200 pb-3">
         <h3 className="text-base font-bold text-blue-950 flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-blue-800" />
+          <Briefcase className="w-5 h-5 text-blue-800" />
           SECTION F – OTHER (Additional Service Options)
         </h3>
         <p className="text-xs text-slate-500 mt-0.5">

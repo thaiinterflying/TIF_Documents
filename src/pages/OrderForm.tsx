@@ -36,7 +36,7 @@ import {
   PhoneCall,
   Award,
   Plane,
-  Sparkles,
+  Briefcase,
   DollarSign,
   ShieldCheck,
   Eye,
@@ -48,6 +48,7 @@ import {
   Save,
   Check,
   Layers,
+  BookOpen,
 } from 'lucide-react';
 
 interface OrderFormProps {
@@ -70,7 +71,7 @@ const STEPS: StepItem[] = [
   { id: 3, key: 'emergencyContact', code: 'C', title: 'Emergency Contact', icon: <PhoneCall className="w-4 h-4" /> },
   { id: 4, key: 'licenseMedical', code: 'D', title: 'License & Medical', icon: <Award className="w-4 h-4" /> },
   { id: 5, key: 'courseOrder', code: 'E', title: 'Course Order Details', icon: <Plane className="w-4 h-4" /> },
-  { id: 6, key: 'otherServices', code: 'F', title: 'Other Services', icon: <Sparkles className="w-4 h-4" /> },
+  { id: 6, key: 'otherServices', code: 'F', title: 'Other Services', icon: <Briefcase className="w-4 h-4" /> },
   { id: 7, key: 'finance', code: 'G', title: 'Finance Tracking', icon: <DollarSign className="w-4 h-4" /> },
   { id: 8, key: 'approval', code: 'J', title: 'Approval & Signature', icon: <ShieldCheck className="w-4 h-4" /> },
 ];
@@ -190,6 +191,9 @@ export const OrderForm: React.FC<OrderFormProps> = ({
     }
   };
 
+  const completedCount = STEPS.filter((s) => isStepComplete(s.id)).length;
+  const progressPercent = Math.round((completedCount / STEPS.length) * 100);
+
   // Submit & Validation handler
   const onValidSubmit = (data: CustomerTrainingFormData) => {
     saveCurrentForm(data as CustomerTrainingForm);
@@ -218,106 +222,124 @@ export const OrderForm: React.FC<OrderFormProps> = ({
       setCurrentStep(8);
     }
 
-    // Scroll to top of form card
     window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
   return (
-    <div className="space-y-6">
-      {/* TOP HEADER / ACTION BAR */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-4.5 rounded-2xl border border-slate-200 shadow-2xs">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-blue-900 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
-              {formValues.customer?.trackingNo || 'NEW-ORDER'}
-            </span>
-            <span className="text-xs text-slate-500 font-medium">
-              • Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].title}
-            </span>
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* TOP HEADER / WORKFLOW ACTION BAR */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs p-5 transition-all">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <div className="flex flex-wrap items-center gap-2 mb-1.5">
+              <span className="font-mono text-xs font-bold text-slate-900 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded flex items-center gap-1.5">
+                <Plane className="w-3.5 h-3.5 text-slate-700" />
+                {formValues.customer?.trackingNo || 'NEW-ORDER'}
+              </span>
+              <span className="text-xs text-slate-500 font-medium">
+                Step {currentStep} of {STEPS.length}: <span className="font-bold text-slate-800">{STEPS[currentStep - 1].title}</span>
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                {progressPercent}% Complete
+              </span>
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+              CUSTOMER TRAINING ORDER &amp; TRACKING FORM
+            </h2>
           </div>
-          <h2 className="text-lg font-extrabold text-slate-900 mt-1">
-            CUSTOMER TRAINING ORDER &amp; TRACKING FORM
-          </h2>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onBackToDashboard}
+              icon={<ChevronLeft className="w-4 h-4" />}
+            >
+              Dashboard
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const el = document.getElementById('clickup-task-id-input');
+                if (el) {
+                  el.focus();
+                  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }}
+              icon={<Layers className="w-3.5 h-3.5 text-blue-700" />}
+              title="Import data from ClickUp"
+              className="border-slate-300 text-slate-800 hover:bg-slate-50 font-medium"
+            >
+              Import ClickUp
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleFillDemoData}
+              icon={<BookOpen className="w-3.5 h-3.5 text-slate-500" />}
+              title="Load sample cadet data"
+            >
+              Fill Sample
+            </Button>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsResetModalOpen(true)}
+              icon={<RotateCcw className="w-3.5 h-3.5 text-slate-400 hover:text-red-600" />}
+              className="text-slate-600 hover:bg-red-50 hover:text-red-700"
+            >
+              Reset
+            </Button>
+
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
+              icon={<Eye className="w-4 h-4" />}
+              className="font-semibold shadow-xs"
+            >
+              Preview &amp; Export
+            </Button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={onBackToDashboard}
-            icon={<ChevronLeft className="w-4 h-4" />}
-          >
-            Dashboard
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              const el = document.getElementById('clickup-task-id-input');
-              if (el) {
-                el.focus();
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }
-            }}
-            icon={<Layers className="w-3.5 h-3.5 text-blue-600" />}
-            title="Import data from ClickUp"
-            className="border-blue-200 text-blue-900 hover:bg-blue-50 font-semibold"
-          >
-            Import ClickUp
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleFillDemoData}
-            icon={<Sparkles className="w-3.5 h-3.5 text-amber-500" />}
-            title="Auto-fill sample cadet data"
-          >
-            Fill Demo
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => setIsResetModalOpen(true)}
-            icon={<RotateCcw className="w-3.5 h-3.5 text-red-500" />}
-            className="text-red-700 hover:bg-red-50"
-          >
-            Reset
-          </Button>
-
-          <Button
-            type="button"
-            variant="primary"
-            size="sm"
-            onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
-            icon={<Eye className="w-4 h-4 text-amber-300" />}
-            className="bg-blue-900 hover:bg-blue-800"
-          >
-            Preview &amp; Export
-          </Button>
+        {/* PROGRESS BAR */}
+        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-3">
+          <div className="flex-1 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+            <div
+              className="bg-blue-600 h-full rounded-full transition-all duration-300"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+          <span className="text-[11px] font-mono font-medium text-slate-500 shrink-0">
+            {completedCount}/{STEPS.length} Sections Complete
+          </span>
         </div>
       </div>
 
       {/* ERROR BANNER IF ANY */}
       {Object.keys(errors).length > 0 && (
-        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 flex items-start gap-3 animate-in fade-in">
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-900 flex items-start gap-3 animate-in fade-in shadow-2xs">
           <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
           <div className="text-xs sm:text-sm">
             <h5 className="font-bold">Required Information Missing</h5>
-            <p className="text-xs text-red-700 mt-0.5">
+            <p className="text-xs text-red-700 mt-0.5 font-medium">
               Please complete all required fields before generating Preview, PDF, or Word documents. Check the highlighted red fields.
             </p>
           </div>
         </div>
       )}
 
-      {/* IMPORT FROM CLICKUP (Requirement 2 & 12) */}
+      {/* IMPORT FROM CLICKUP */}
       <ImportClickUpCard
         currentFormData={formValues as CustomerTrainingForm}
         onImportSuccess={handleImportSuccess}
@@ -325,15 +347,18 @@ export const OrderForm: React.FC<OrderFormProps> = ({
 
       {/* MAIN CONTAINER: SIDEBAR + FORM BODY */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* DESKTOP SIDEBAR NAVIGATION */}
-        <aside className="lg:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-2xs p-3 sticky top-4 hidden lg:block">
-          <div className="px-3 py-2 border-b border-slate-100 mb-2">
+        {/* DESKTOP SIDEBAR STEPPER */}
+        <aside className="lg:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-2xs p-3.5 sticky top-20 hidden lg:block">
+          <div className="px-3 py-2 border-b border-slate-100 mb-2 flex items-center justify-between">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Form Sections
             </span>
+            <span className="text-[10px] font-mono text-slate-500 font-semibold">
+              {completedCount}/{STEPS.length}
+            </span>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1 relative">
             {STEPS.map((step) => {
               const isActive = currentStep === step.id;
               const completed = isStepComplete(step.id);
@@ -343,18 +368,18 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   key={step.id}
                   type="button"
                   onClick={() => setCurrentStep(step.id)}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer text-left group ${
                     isActive
-                      ? 'bg-blue-900 text-white shadow-xs font-bold'
+                      ? 'bg-blue-900 text-white font-bold shadow-xs'
                       : 'text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 truncate">
                     <span
-                      className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-mono font-bold shrink-0 ${
+                      className={`w-5.5 h-5.5 rounded-md flex items-center justify-center text-[10px] font-mono font-bold shrink-0 transition-colors ${
                         isActive
                           ? 'bg-white/20 text-white'
-                          : 'bg-slate-100 text-slate-600'
+                          : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'
                       }`}
                     >
                       {step.code}
@@ -367,7 +392,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                       className={`shrink-0 ml-2 rounded-full p-0.5 ${
                         isActive ? 'text-amber-300' : 'text-emerald-600'
                       }`}
-                      title="Section has data"
+                      title="Section has complete data"
                     >
                       <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                     </span>
@@ -380,7 +405,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
               <button
                 type="button"
                 onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition cursor-pointer"
+                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4 text-amber-700" />
@@ -392,15 +417,15 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           </nav>
 
           {/* Autosave status indicator */}
-          <div className="mt-4 pt-3 border-t border-slate-100 px-3 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="flex items-center gap-1">
-              <Save className="w-3 h-3 text-emerald-600" /> Auto-saved
+          <div className="mt-3.5 pt-2.5 border-t border-slate-100 px-3 flex items-center justify-between text-[11px] text-slate-400">
+            <span className="flex items-center gap-1.5 font-medium">
+              <Save className="w-3.5 h-3.5 text-emerald-600" /> Auto-saved
             </span>
-            <span className="font-mono text-[10px]">localStorage</span>
+            <span className="font-mono text-[10px] text-slate-400">local storage</span>
           </div>
         </aside>
 
-        {/* MOBILE / TABLET STEPPER (HORIZONTAL SCROLL) */}
+        {/* MOBILE / TABLET STEPPER */}
         <div className="lg:hidden col-span-1 bg-white p-3 rounded-xl border border-slate-200 shadow-2xs overflow-x-auto">
           <div className="flex items-center gap-2 min-w-max">
             {STEPS.map((step) => {
@@ -411,15 +436,15 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                   key={step.id}
                   type="button"
                   onClick={() => setCurrentStep(step.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
                     isActive
-                      ? 'bg-blue-900 text-white'
+                      ? 'bg-blue-900 text-white font-bold'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
-                  <span>{step.code}.</span>
+                  <span className="font-mono">{step.code}.</span>
                   <span>{step.title}</span>
-                  {completed && <span className="text-emerald-500 font-bold">✓</span>}
+                  {completed && <Check className="w-3.5 h-3.5 text-emerald-600 inline ml-0.5" />}
                 </button>
               );
             })}
@@ -427,7 +452,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
         </div>
 
         {/* FORM BODY CARD */}
-        <div className="lg:col-span-9 bg-white rounded-2xl border border-slate-200 shadow-2xs p-6 sm:p-8">
+        <div className="lg:col-span-9 bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-9">
           <form onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}>
             {/* RENDER STEP ACCORDING TO CURRENT STEP */}
             {currentStep === 1 && (
@@ -501,7 +526,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
             )}
 
             {/* STEP CONTROLS / PAGINATION FOOTER */}
-            <div className="mt-8 pt-5 border-t border-slate-200 flex items-center justify-between gap-3">
+            <div className="mt-9 pt-6 border-t border-slate-100 flex items-center justify-between gap-3">
               <div>
                 {currentStep > 1 && (
                   <Button
@@ -529,10 +554,10 @@ export const OrderForm: React.FC<OrderFormProps> = ({
                 ) : (
                   <Button
                     type="submit"
-                    variant="success"
+                    variant="gold"
                     size="lg"
-                    icon={<Eye className="w-5 h-5 text-amber-300" />}
-                    className="font-bold"
+                    icon={<Eye className="w-5 h-5 text-slate-950" />}
+                    className="font-bold shadow-lg"
                   >
                     Complete &amp; Open Preview
                   </Button>
@@ -560,7 +585,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           </>
         }
       >
-        <p className="text-sm text-slate-700">
+        <p className="text-sm text-slate-700 leading-relaxed">
           Would you like to resume editing your saved draft, or start completely fresh with blank fields?
         </p>
       </Modal>
@@ -582,16 +607,16 @@ export const OrderForm: React.FC<OrderFormProps> = ({
           </>
         }
       >
-        <p className="text-sm text-slate-700">
+        <p className="text-sm text-slate-700 leading-relaxed">
           All inputs across all sections will be erased and reset to empty values. This cannot be undone.
         </p>
       </Modal>
 
       {/* TOAST NOTIFICATION */}
       {savedToastVisible && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-semibold animate-in slide-in-from-bottom-3">
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-950/90 text-white px-4 py-3 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md animate-in slide-in-from-bottom-3 duration-200">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          Form draft saved successfully
+          <span>Form draft saved successfully</span>
         </div>
       )}
     </div>

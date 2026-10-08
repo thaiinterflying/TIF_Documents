@@ -158,7 +158,7 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({
         </div>
       </div>
 
-      <div className="relative border-2 border-dashed border-slate-300 rounded-lg overflow-hidden bg-slate-50/50 touch-none">
+      <div className="relative border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-2xl overflow-hidden bg-white shadow-inner transition-colors touch-none">
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
@@ -168,20 +168,22 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({
           onTouchStart={startDrawing}
           onTouchMove={draw}
           onTouchEnd={stopDrawing}
-          className="w-full h-36 cursor-crosshair block"
-          style={{ width: '100%', height: '144px' }}
+          className="w-full h-38 cursor-crosshair block"
+          style={{ width: '100%', height: '152px' }}
         />
 
         {!hasDrawn && (
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-slate-400 select-none">
-            <PenTool className="w-6 h-6 stroke-1 mb-1 text-slate-300" />
-            <p className="text-xs font-medium">Sign here using mouse, finger or stylus</p>
-            <p className="text-[11px] text-slate-400">คลิกหรือลากเพื่อเซ็นชื่อบนพื้นที่นี้</p>
+            <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center mb-1.5 text-slate-400">
+              <PenTool className="w-5 h-5 stroke-1.5" />
+            </div>
+            <p className="text-xs font-semibold text-slate-600">Sign here using mouse, finger or stylus</p>
+            <p className="text-[11px] text-slate-400 font-medium">คลิกหรือลากเพื่อเซ็นชื่อบนพื้นที่นี้</p>
           </div>
         )}
 
-        <div className="absolute bottom-2 left-4 right-4 border-b border-slate-300/60 pointer-events-none" />
-        <span className="absolute bottom-1 right-4 text-[10px] text-slate-400 pointer-events-none uppercase tracking-wider">
+        <div className="absolute bottom-4 left-6 right-6 border-b border-slate-300/80 pointer-events-none" />
+        <span className="absolute bottom-1.5 right-6 text-[10px] font-mono font-bold text-slate-400 pointer-events-none uppercase tracking-wider">
           Sign above line
         </span>
       </div>

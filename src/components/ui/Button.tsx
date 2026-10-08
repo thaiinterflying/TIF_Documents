@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'success';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'success' | 'gold';
   size?: 'sm' | 'md' | 'lg';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
@@ -20,27 +20,29 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.99] cursor-pointer shadow-xs';
+    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98] cursor-pointer shadow-xs';
 
   const sizeStyles = {
-    sm: 'text-xs px-3 py-1.5 gap-1.5',
-    md: 'text-sm px-4 py-2.5 gap-2',
-    lg: 'text-base px-5 py-3 gap-2.5 font-semibold',
+    sm: 'text-xs px-3.5 py-1.5 gap-1.5 font-medium tracking-tight',
+    md: 'text-sm px-4.5 py-2.5 gap-2 font-semibold tracking-tight',
+    lg: 'text-base px-6 py-3.5 gap-2.5 font-bold tracking-tight',
   };
 
   const variantStyles = {
     primary:
-      'bg-blue-900 text-white hover:bg-blue-800 active:bg-blue-950 focus:ring-blue-800 shadow-sm border border-transparent',
+      'bg-blue-900 text-white hover:bg-blue-800 active:bg-blue-950 focus:ring-blue-800 shadow-2xs font-semibold border border-transparent',
+    gold:
+      'bg-amber-500 text-slate-950 hover:bg-amber-400 active:bg-amber-600 focus:ring-amber-400 font-bold shadow-2xs border border-transparent',
     secondary:
       'bg-slate-100 text-slate-800 hover:bg-slate-200 active:bg-slate-300 focus:ring-slate-400 border border-slate-200',
     outline:
-      'bg-white text-slate-700 hover:bg-slate-50 active:bg-slate-100 focus:ring-blue-700 border border-slate-300 shadow-2xs',
+      'bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100 focus:ring-slate-400 border border-slate-300 shadow-2xs',
     danger:
-      'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus:ring-red-500 shadow-sm border border-transparent',
+      'bg-red-700 text-white hover:bg-red-800 active:bg-red-900 focus:ring-red-600 shadow-2xs border border-transparent',
     ghost:
-      'bg-transparent text-slate-600 hover:bg-slate-100 active:bg-slate-200 focus:ring-slate-300 shadow-none border-transparent',
+      'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200 focus:ring-slate-300 shadow-none border-transparent',
     success:
-      'bg-emerald-700 text-white hover:bg-emerald-800 active:bg-emerald-900 focus:ring-emerald-600 shadow-sm border border-transparent',
+      'bg-emerald-700 text-white hover:bg-emerald-800 active:bg-emerald-900 focus:ring-emerald-600 shadow-2xs border border-transparent',
   };
 
   return (

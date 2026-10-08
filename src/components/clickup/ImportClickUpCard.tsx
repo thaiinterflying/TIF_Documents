@@ -17,7 +17,7 @@ import {
   Loader2,
   ArrowDownToLine,
   Layers,
-  Sparkles,
+  Info,
 } from 'lucide-react';
 
 interface ImportClickUpCardProps {
@@ -184,28 +184,19 @@ export const ImportClickUpCard: React.FC<ImportClickUpCardProps> = ({
 
   return (
     <>
-      <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-5 sm:p-6 text-white shadow-md border border-blue-900/40 relative overflow-hidden transition-all">
-        {/* Subtle decorative background pattern */}
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
-
-        <div className="relative z-10">
+      <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-sm border border-blue-900/50 transition-all">
+        <div>
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm shrink-0">
-                <Layers className="w-5 h-5 text-amber-300" />
+              <div className="w-10 h-10 rounded-xl bg-blue-900/60 text-blue-300 flex items-center justify-center shadow-xs shrink-0 border border-blue-700/50">
+                <Layers className="w-5 h-5" />
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-base font-bold text-white tracking-tight">
-                    Import from ClickUp
-                  </h3>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-full">
-                    Auto-fill
-                  </span>
-                </div>
-                <p className="text-xs text-slate-300 mt-0.5">
+                <h3 className="text-base font-bold text-white tracking-tight">
+                  Import from ClickUp
+                </h3>
+                <p className="text-xs text-blue-200/80 mt-0.5 font-normal">
                   Fetch task details, custom fields &amp; notes directly into the Customer Training Form
                 </p>
               </div>
@@ -222,12 +213,12 @@ export const ImportClickUpCard: React.FC<ImportClickUpCardProps> = ({
                   onClick={handleInitiateRefresh}
                   icon={
                     isLoading ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-200" />
                     ) : (
-                      <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
+                      <RefreshCw className="w-3.5 h-3.5 text-blue-200" />
                     )
                   }
-                  className="bg-white/10 hover:bg-white/20 text-white border-white/20 text-xs font-semibold backdrop-blur-xs"
+                  className="bg-white/10 hover:bg-white/20 text-white border-white/20 text-xs font-medium"
                 >
                   {isLoading ? 'Refreshing...' : 'Refresh from ClickUp'}
                 </Button>
@@ -239,7 +230,7 @@ export const ImportClickUpCard: React.FC<ImportClickUpCardProps> = ({
           <div className="mt-4 pt-1">
             <label
               htmlFor="clickup-task-id-input"
-              className="block text-xs font-medium text-slate-300 mb-1.5"
+              className="block text-xs font-bold uppercase tracking-wider text-blue-200 mb-1.5"
             >
               ClickUp Task ID
             </label>
@@ -262,40 +253,40 @@ export const ImportClickUpCard: React.FC<ImportClickUpCardProps> = ({
                   }}
                   placeholder="e.g. 86eyatw7p or https://app.clickup.com/t/..."
                   disabled={isLoading}
-                  className="w-full bg-slate-950/60 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition disabled:opacity-50"
+                  className="w-full bg-black/40 border border-white/20 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white placeholder-blue-300/50 focus:outline-hidden focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition disabled:opacity-50"
                 />
               </div>
 
               <Button
                 type="button"
-                variant="primary"
+                variant="gold"
                 size="md"
                 disabled={isLoading || !taskInput.trim()}
                 onClick={handleInitiateImport}
                 icon={
                   isLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-amber-300" />
+                    <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
                   ) : (
-                    <ArrowDownToLine className="w-4 h-4 text-amber-300" />
+                    <ArrowDownToLine className="w-4 h-4 text-slate-950" />
                   )
                 }
-                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 shrink-0 shadow-sm disabled:cursor-not-allowed"
+                className="font-bold text-sm px-5 shrink-0 shadow-sm disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Loading data from ClickUp...' : 'Import Data'}
+                {isLoading ? 'Loading ClickUp...' : 'Import Task Data'}
               </Button>
             </div>
 
-            <p className="text-[11px] text-slate-400 mt-2 flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
+            <p className="text-[11px] text-blue-200/70 mt-2 flex items-center gap-1.5">
+              <Info className="w-3.5 h-3.5 text-blue-300 shrink-0" />
               <span>
-                Enter the Task ID (e.g. <code className="text-amber-200 font-mono">86eyatw7p</code>) or paste the full ClickUp Task URL.
+                Enter the Task ID (e.g. <code className="text-slate-300 font-mono">86eyatw7p</code>) or paste the full ClickUp Task URL.
               </span>
             </p>
           </div>
 
           {/* Loading status banner (Requirement 8) */}
           {isLoading && (
-            <div className="mt-4 p-3 rounded-xl bg-blue-500/15 border border-blue-400/30 text-blue-200 text-xs flex items-center gap-2.5 animate-pulse">
+            <div className="mt-4 p-3 rounded-xl bg-blue-950/60 border border-blue-500/40 text-blue-200 text-xs flex items-center gap-2.5">
               <Loader2 className="w-4 h-4 text-blue-300 animate-spin shrink-0" />
               <span className="font-medium">Loading data from ClickUp...</span>
             </div>
@@ -317,7 +308,7 @@ export const ImportClickUpCard: React.FC<ImportClickUpCardProps> = ({
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="font-bold text-emerald-200">
-                  ✓ Successfully imported from ClickUp
+                  Successfully imported from ClickUp
                 </span>
               </div>
 

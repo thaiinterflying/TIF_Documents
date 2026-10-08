@@ -42,8 +42,8 @@ export const CustomerInformationSection: React.FC<CustomerInformationSectionProp
       </div>
 
       {/* TOP TRACKING & CUSTOMER TYPE BANNER (As in Document Header Box) */}
-      <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-blue-900 text-white rounded-xl p-5 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+      <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-blue-900 text-white rounded-xl p-5 border border-blue-900/60 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
           {/* Tracking No */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
@@ -53,7 +53,7 @@ export const CustomerInformationSection: React.FC<CustomerInformationSectionProp
               <button
                 type="button"
                 onClick={handleRegenerateTrackingNo}
-                className="text-[11px] text-blue-200 hover:text-white flex items-center gap-1 bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded transition cursor-pointer"
+                className="text-[11px] text-blue-200 hover:text-white flex items-center gap-1 bg-white/10 hover:bg-white/20 border border-white/20 px-2 py-0.5 rounded transition cursor-pointer font-medium"
                 title="Generate new ID"
               >
                 <RefreshCw className="w-3 h-3" /> Auto Gen
@@ -61,13 +61,13 @@ export const CustomerInformationSection: React.FC<CustomerInformationSectionProp
             </div>
             <input
               {...register('customer.trackingNo')}
-              className={`w-full font-mono text-base font-bold px-3 py-2 rounded-lg bg-white/10 border text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
-                errors.customer?.trackingNo ? 'border-red-400 bg-red-950/40' : 'border-white/20'
+              className={`w-full font-mono text-base font-bold px-3 py-2 rounded-lg bg-white/10 border text-white placeholder-blue-300 focus:outline-hidden focus:ring-2 focus:ring-amber-400 ${
+                errors.customer?.trackingNo ? 'border-red-500 bg-red-950/40' : 'border-white/20'
               }`}
               placeholder="e.g. TIF-2026-001"
             />
             {errors.customer?.trackingNo && (
-              <p className="text-xs text-red-300 mt-1">{errors.customer.trackingNo.message}</p>
+              <p className="text-xs text-red-400 mt-1 font-medium">{errors.customer.trackingNo.message}</p>
             )}
           </div>
 
@@ -78,7 +78,7 @@ export const CustomerInformationSection: React.FC<CustomerInformationSectionProp
             </label>
             <input
               {...register('customer.joiningBatch')}
-              className="w-full text-sm font-medium px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full text-sm font-semibold px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-hidden focus:ring-2 focus:ring-blue-400"
               placeholder="e.g. Batch 2026/01"
             />
           </div>
@@ -88,19 +88,19 @@ export const CustomerInformationSection: React.FC<CustomerInformationSectionProp
             <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-1.5">
               Customer Classification
             </label>
-            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/15 border border-white/20 text-sm font-semibold text-white w-full">
-              <Users className="w-4 h-4 text-sky-300" />
+            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm font-semibold text-white w-full">
+              <Users className="w-4 h-4 text-blue-200" />
               <span>{customerType || 'Individual'}</span>
             </div>
           </div>
         </div>
 
         {/* CUSTOMER TYPE SELECTION CARDS */}
-        <div className="mt-5 pt-4 border-t border-white/10">
-          <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-2.5">
+        <div className="mt-4 pt-3.5 border-t border-white/10">
+          <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-2">
             Customer Type <span className="text-red-400">*</span>
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[
               { id: 'Individual', label: 'Individual' },
               { id: 'Group', label: 'Group' },

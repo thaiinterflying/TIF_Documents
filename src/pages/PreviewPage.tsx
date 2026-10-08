@@ -11,7 +11,8 @@ import {
   ChevronLeft,
   CheckCircle2,
   AlertCircle,
-  Share2,
+  FileCheck,
+  Plane,
 } from 'lucide-react';
 
 interface PreviewPageProps {
@@ -36,7 +37,7 @@ export const PreviewPage: React.FC<PreviewPageProps> = ({
       setExportSuccessMessage(null);
       setExportErrorMessage(null);
       await exportToPdf(data);
-      setExportSuccessMessage('PDF document downloaded successfully!');
+      setExportSuccessMessage('PDF document generated and downloaded successfully.');
       setTimeout(() => setExportSuccessMessage(null), 4000);
     } catch (err) {
       console.error('PDF Export Error:', err);
@@ -52,7 +53,7 @@ export const PreviewPage: React.FC<PreviewPageProps> = ({
       setExportSuccessMessage(null);
       setExportErrorMessage(null);
       await exportToWord(data);
-      setExportSuccessMessage('Word document (.docx) downloaded successfully!');
+      setExportSuccessMessage('Word document (.docx) generated and downloaded successfully.');
       setTimeout(() => setExportSuccessMessage(null), 4000);
     } catch (err) {
       console.error('Word Export Error:', err);
@@ -69,21 +70,23 @@ export const PreviewPage: React.FC<PreviewPageProps> = ({
   return (
     <div className="space-y-6">
       {/* TOP CONTROL BAR (HIDDEN IN PRINT) */}
-      <div className="bg-white p-4.5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center md:justify-between gap-4 print:hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 print:hidden">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-blue-900 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
+          <div className="flex flex-wrap items-center gap-2 mb-1.5">
+            <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded flex items-center gap-1.5">
+              <Plane className="w-3.5 h-3.5 text-slate-700" />
               {data.customer.trackingNo || 'PREVIEW'}
             </span>
-            <span className="text-xs text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-              ✓ Ready for Export
+            <span className="inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              Ready for Export
             </span>
           </div>
-          <h2 className="text-lg font-black text-slate-900 mt-1">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
             Form Preview &amp; Document Generation
           </h2>
           <p className="text-xs text-slate-500">
-            Official Thai Inter Flying Document Layout (F-MK-0063)
+            Official Thai Inter Flying Document Layout (F-MK-0063 REV: 01)
           </p>
         </div>
 
@@ -116,56 +119,56 @@ export const PreviewPage: React.FC<PreviewPageProps> = ({
             Print
           </Button>
 
-
           <Button
-            variant="primary"
             size="sm"
             onClick={handleExportPdf}
             isLoading={isExportingPdf}
-            icon={<FileDown className="w-4 h-4 text-red-300" />}
-            className="bg-red-800 hover:bg-red-700 text-white font-bold"
+            icon={<FileDown className="w-4 h-4 text-red-200" />}
+            className="font-semibold bg-red-800 hover:bg-red-700 text-white border border-red-700 shadow-2xs"
           >
             Export PDF
           </Button>
 
           <Button
-            variant="primary"
             size="sm"
             onClick={handleExportWord}
             isLoading={isExportingWord}
-            icon={<FileText className="w-4 h-4 text-sky-300" />}
-            className="bg-blue-900 hover:bg-blue-800 text-white font-bold"
+            icon={<FileText className="w-4 h-4 text-blue-200" />}
+            className="font-semibold bg-blue-900 hover:bg-blue-800 text-white border border-blue-800 shadow-2xs"
           >
             Export Word (.docx)
           </Button>
         </div>
       </div>
 
-      {/* SUCCESS OR ERROR ALERTS (HIDDEN IN PRINT) */}
+      {/* ALERTS (HIDDEN IN PRINT) */}
       {exportSuccessMessage && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2.5 text-xs sm:text-sm font-semibold print:hidden animate-in fade-in">
+        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2.5 text-xs sm:text-sm font-semibold print:hidden animate-in fade-in shadow-2xs">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
           <span>{exportSuccessMessage}</span>
         </div>
       )}
 
       {exportErrorMessage && (
-        <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-800 flex items-center gap-2.5 text-xs sm:text-sm font-semibold print:hidden animate-in fade-in">
+        <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-800 flex items-center gap-2.5 text-xs sm:text-sm font-semibold print:hidden animate-in fade-in shadow-2xs">
           <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
           <span>{exportErrorMessage}</span>
         </div>
       )}
 
       {/* FORM PREVIEW DOCUMENT */}
-      <div className="py-2">
-        <FormPreview data={data} />
+      <div className="py-2 flex justify-center">
+        <div className="shadow-lg rounded-sm ring-1 ring-slate-900/10 bg-white">
+          <FormPreview data={data} />
+        </div>
       </div>
 
-      {/* BOTTOM FLOATING / STICKY ACTION BAR (HIDDEN IN PRINT) */}
-      <div className="bg-slate-900 text-white p-4 rounded-xl shadow-xl flex items-center justify-between gap-4 print:hidden sticky bottom-4 z-40 max-w-[850px] mx-auto border border-slate-700">
-        <div className="flex items-center gap-2 text-xs">
-          <Share2 className="w-4 h-4 text-sky-400" />
-          <span>Document certified and prepared for dispatch.</span>
+      {/* BOTTOM ACTION BAR (HIDDEN IN PRINT) */}
+      <div className="bg-blue-950 text-white p-3.5 rounded-xl shadow-lg flex items-center justify-between gap-4 print:hidden sticky bottom-6 z-40 max-w-[850px] mx-auto border border-blue-900">
+        <div className="flex items-center gap-2 text-xs text-blue-200 font-medium">
+          <FileCheck className="w-4 h-4 text-blue-300" />
+          <span className="hidden sm:inline">Official flight document verified for distribution.</span>
+          <span className="sm:hidden font-mono text-blue-200">F-MK-0063 Ready</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -179,21 +182,19 @@ export const PreviewPage: React.FC<PreviewPageProps> = ({
           </Button>
           <Button
             size="sm"
-            variant="primary"
             onClick={handleExportPdf}
             isLoading={isExportingPdf}
-            icon={<FileDown className="w-3.5 h-3.5" />}
-            className="bg-red-700 hover:bg-red-600 text-xs py-1 font-bold"
+            icon={<FileDown className="w-3.5 h-3.5 text-red-200" />}
+            className="text-xs py-1 font-semibold bg-red-800 hover:bg-red-700 text-white border border-red-700"
           >
             PDF
           </Button>
           <Button
             size="sm"
-            variant="primary"
             onClick={handleExportWord}
             isLoading={isExportingWord}
-            icon={<FileText className="w-3.5 h-3.5" />}
-            className="bg-blue-600 hover:bg-blue-500 text-xs py-1 font-bold"
+            icon={<FileText className="w-3.5 h-3.5 text-blue-200" />}
+            className="text-xs py-1 font-semibold bg-blue-900 hover:bg-blue-800 text-white border border-blue-800"
           >
             Word
           </Button>

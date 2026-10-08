@@ -82,17 +82,17 @@ export const FinanceSection: React.FC<FinanceSectionProps> = ({
       </div>
 
       {/* PRICING & AUTO CALCULATION CARD */}
-      <div className="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-xl p-5 shadow-sm space-y-4">
+      <div className="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-xl p-5 border border-blue-900/60 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-white/10 pb-3">
-          <h4 className="text-sm font-bold text-blue-200 flex items-center gap-2">
+          <h4 className="text-sm font-bold text-blue-200 flex items-center gap-2 tracking-tight">
             <Calculator className="w-4 h-4 text-emerald-400" /> Tuition Fee &amp; Auto Calculation
           </h4>
-          <span className="text-xs text-emerald-400 font-mono bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded">
+          <span className="text-xs text-emerald-400 font-mono bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded">
             Auto-calculated
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
           {/* Total Price */}
           <div>
             <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-1.5">
@@ -104,7 +104,7 @@ export const FinanceSection: React.FC<FinanceSectionProps> = ({
                 step="1"
                 placeholder="0"
                 {...register('finance.totalPrice', { valueAsNumber: true })}
-                className="w-full text-base font-semibold px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full text-base font-semibold px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-hidden focus:ring-2 focus:ring-emerald-400"
               />
               <span className="absolute right-3 top-2 text-xs text-blue-300 font-medium">THB</span>
             </div>
@@ -121,7 +121,7 @@ export const FinanceSection: React.FC<FinanceSectionProps> = ({
                 step="1"
                 placeholder="0"
                 {...register('finance.discount', { valueAsNumber: true })}
-                className="w-full text-base font-semibold px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full text-base font-semibold px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-hidden focus:ring-2 focus:ring-emerald-400"
               />
               <span className="absolute right-3 top-2 text-xs text-blue-300 font-medium">THB</span>
             </div>
